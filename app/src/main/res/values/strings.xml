@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">UABV1_Admin</string>
+    <string name="channel_name">UABV1_Admin</string>
+    <string name="channel_description">UABV1_Admin</string>
 </resources>

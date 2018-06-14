@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -73,10 +74,39 @@ public class NotifActivity extends AppCompatActivity {
                 switch(gender){
                     case "male":
                         ad = getMaleAd(command, dataSnapshot);
+                        ratingBar.setRating(ad.getRating());
+                        tv_Title.setText(ad.getProductName());
+                        tv_Name.setText(ad.getName());
+                        tv_Comment.setText(ad.getComment());
+                        try {
+                            iv_User.setImageBitmap(decodeFromFireBase64(ad.getUserPhoto()));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     case "female":
+                        ad = getFemaleAd(command, dataSnapshot);
+                        ratingBar.setRating(ad.getRating());
+                        tv_Title.setText(ad.getProductName());
+                        tv_Name.setText(ad.getName());
+                        tv_Comment.setText(ad.getComment());
+                        try {
+                            iv_User.setImageBitmap(decodeFromFireBase64(ad.getUserPhoto()));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         break;
                     default:
+                        ad = getOtherAd(command, dataSnapshot);
+                        ratingBar.setRating(ad.getRating());
+                        tv_Title.setText(ad.getProductName());
+                        tv_Name.setText(ad.getName());
+                        tv_Comment.setText(ad.getComment());
+                        try {
+                            iv_User.setImageBitmap(decodeFromFireBase64(ad.getUserPhoto()));
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
                         break;
                 }
             }
@@ -87,6 +117,72 @@ public class NotifActivity extends AppCompatActivity {
             }
 
         });
+    }
+
+    private AdStruct getOtherAd(String command, DataSnapshot dataSnapshot) {
+        AdStruct iAd = null;
+
+        switch (command){
+            case "advertised1":
+                iAd.setProductName(dataSnapshot.child("cads").child("other").child("cad1").child("productName").getValue().toString());
+                iAd.setProductPhoto(dataSnapshot.child("cads").child("other").child("cad1").child("productPhoto").getValue().toString());
+                iAd.setName(dataSnapshot.child("currentUser").child("createAd1").child("uname").getValue().toString());
+                iAd.setComment(dataSnapshot.child("currentUser").child("createAd1").child("ucomment").getValue().toString());
+                iAd.setRating(Float.parseFloat(dataSnapshot.child("currentUser").child("createAd1").child("urating").getValue().toString()));
+                iAd.setUserPhoto(dataSnapshot.child("currentUser").child("createAd1").child("uphoto").getValue().toString());
+                return iAd;
+            case "advertised2":
+                iAd.setProductName(dataSnapshot.child("cads").child("other").child("cad2").child("productName").getValue().toString());
+                iAd.setProductPhoto(dataSnapshot.child("cads").child("other").child("cad2").child("productPhoto").getValue().toString());
+                iAd.setName(dataSnapshot.child("currentUser").child("createAd2").child("uname").getValue().toString());
+                iAd.setComment(dataSnapshot.child("currentUser").child("createAd2").child("ucomment").getValue().toString());
+                iAd.setRating(Float.parseFloat(dataSnapshot.child("currentUser").child("createAd2").child("urating").getValue().toString()));
+                iAd.setUserPhoto(dataSnapshot.child("currentUser").child("createAd2").child("uphoto").getValue().toString());
+                return iAd;
+            case "advertised3":
+                iAd.setProductName(dataSnapshot.child("cads").child("other").child("cad3").child("productName").getValue().toString());
+                iAd.setProductPhoto(dataSnapshot.child("cads").child("other").child("cad3").child("productPhoto").getValue().toString());
+                iAd.setName(dataSnapshot.child("currentUser").child("createAd3").child("uname").getValue().toString());
+                iAd.setComment(dataSnapshot.child("currentUser").child("createAd3").child("ucomment").getValue().toString());
+                iAd.setRating(Float.parseFloat(dataSnapshot.child("currentUser").child("createAd3").child("urating").getValue().toString()));
+                iAd.setUserPhoto(dataSnapshot.child("currentUser").child("createAd3").child("uphoto").getValue().toString());
+                return iAd;
+        }
+
+        return iAd;
+    }
+
+    private AdStruct getFemaleAd(String command, DataSnapshot dataSnapshot) {
+        AdStruct iAd = null;
+
+        switch (command){
+            case "advertised1":
+                iAd.setProductName(dataSnapshot.child("cads").child("female").child("cad1").child("productName").getValue().toString());
+                iAd.setProductPhoto(dataSnapshot.child("cads").child("female").child("cad1").child("productPhoto").getValue().toString());
+                iAd.setName(dataSnapshot.child("currentUser").child("createAd1").child("uname").getValue().toString());
+                iAd.setComment(dataSnapshot.child("currentUser").child("createAd1").child("ucomment").getValue().toString());
+                iAd.setRating(Float.parseFloat(dataSnapshot.child("currentUser").child("createAd1").child("urating").getValue().toString()));
+                iAd.setUserPhoto(dataSnapshot.child("currentUser").child("createAd1").child("uphoto").getValue().toString());
+                return iAd;
+            case "advertised2":
+                iAd.setProductName(dataSnapshot.child("cads").child("female").child("cad2").child("productName").getValue().toString());
+                iAd.setProductPhoto(dataSnapshot.child("cads").child("female").child("cad2").child("productPhoto").getValue().toString());
+                iAd.setName(dataSnapshot.child("currentUser").child("createAd2").child("uname").getValue().toString());
+                iAd.setComment(dataSnapshot.child("currentUser").child("createAd2").child("ucomment").getValue().toString());
+                iAd.setRating(Float.parseFloat(dataSnapshot.child("currentUser").child("createAd2").child("urating").getValue().toString()));
+                iAd.setUserPhoto(dataSnapshot.child("currentUser").child("createAd2").child("uphoto").getValue().toString());
+                return iAd;
+            case "advertised3":
+                iAd.setProductName(dataSnapshot.child("cads").child("female").child("cad3").child("productName").getValue().toString());
+                iAd.setProductPhoto(dataSnapshot.child("cads").child("female").child("cad3").child("productPhoto").getValue().toString());
+                iAd.setName(dataSnapshot.child("currentUser").child("createAd3").child("uname").getValue().toString());
+                iAd.setComment(dataSnapshot.child("currentUser").child("createAd3").child("ucomment").getValue().toString());
+                iAd.setRating(Float.parseFloat(dataSnapshot.child("currentUser").child("createAd3").child("urating").getValue().toString()));
+                iAd.setUserPhoto(dataSnapshot.child("currentUser").child("createAd3").child("uphoto").getValue().toString());
+                return iAd;
+        }
+
+        return iAd;
     }
 
     private AdStruct getMaleAd(String command, DataSnapshot dataSnapshot) {
@@ -152,6 +248,15 @@ public class NotifActivity extends AppCompatActivity {
             Log.d("test", "background set");
 
         }
+    }
+    private Bitmap decodeFromFireBase64(String photoUrl) throws IOException {
+        byte[] decodedByteArray = android.util.Base64.decode(photoUrl, Base64.DEFAULT);
+        return BitmapFactory.decodeByteArray(decodedByteArray, 0, decodedByteArray.length);
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
     }
 }
 
