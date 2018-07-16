@@ -48,12 +48,15 @@ public class NotifActivity extends AppCompatActivity {
     private ImageView iv_Product;
     private String command;
     private String gender;
-
+    private FirebaseDatabase firebaseDatabase;
+    private DatabaseReference databaseReference;
+    private DatabaseReference databaseReferenceRec;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notif);
-
+        firebaseDatabase = FirebaseDatabase.getInstance();
+        databaseReference = firebaseDatabase.getReference();
         ratingBar = findViewById(R.id.ratingBar_Notif);
         tv_Title = findViewById(R.id.tv_Notif_Title);
         tv_Name = findViewById(R.id.tv_Notif_Name);
@@ -302,6 +305,8 @@ public class NotifActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent intent = new Intent(this,MainActivity.class);
         finish();
+        databaseReference.child("signalFromAdmin").child("command").setValue("empty");
+        firebaseDatabase.getReference().child("signalToAdmin").child("command").setValue("empty");
         startActivity(intent);
 
     }

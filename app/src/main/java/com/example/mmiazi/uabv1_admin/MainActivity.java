@@ -4,6 +4,7 @@ import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -124,11 +125,11 @@ public class MainActivity extends AppCompatActivity {
         //        TODO: Notification receive.....
         createNotificationChannel();
 
-        Intent intent = new Intent(getApplicationContext(), NotifActivity.class);
+        Intent intent = new Intent(this, NotifActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, 0);
-
-
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(intent);
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_notifications_active_black_24dp)
                 .setContentTitle("Ad Received!")
