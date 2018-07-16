@@ -59,7 +59,7 @@ public class NotifActivity extends AppCompatActivity {
         tv_Name = findViewById(R.id.tv_Notif_Name);
         tv_Comment = findViewById(R.id.tv_Notif_Comment);
         iv_User = findViewById(R.id.iv_Notif_photo);
-        iv_Product =findViewById(R.id.produtImage);
+        iv_Product =findViewById(R.id.productImage);
         final ConstraintLayout back_Notif = findViewById(R.id.back_notif);
 
         command = "empty";
