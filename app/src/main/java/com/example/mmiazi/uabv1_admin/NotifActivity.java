@@ -1,5 +1,6 @@
 package com.example.mmiazi.uabv1_admin;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
@@ -10,6 +11,7 @@ import android.support.constraint.ConstraintLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -19,6 +21,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.squareup.picasso.Picasso;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -42,6 +45,7 @@ public class NotifActivity extends AppCompatActivity {
     private TextView tv_Name;
     private TextView tv_Comment;
     private ImageView iv_User;
+    private ImageView iv_Product;
     private String command;
     private String gender;
 
@@ -55,6 +59,7 @@ public class NotifActivity extends AppCompatActivity {
         tv_Name = findViewById(R.id.tv_Notif_Name);
         tv_Comment = findViewById(R.id.tv_Notif_Comment);
         iv_User = findViewById(R.id.iv_Notif_photo);
+        iv_Product =findViewById(R.id.produtImage);
         final ConstraintLayout back_Notif = findViewById(R.id.back_notif);
 
         command = "empty";
@@ -72,41 +77,80 @@ public class NotifActivity extends AppCompatActivity {
                 AdStruct ad = null;
 
                 switch(gender){
-                    case "male":
+                    case "Male":
                         ad = getMaleAd(command, dataSnapshot);
-                        ratingBar.setRating(ad.getRating());
+                        if(!ad.getRating().equals("false")){
+                            ratingBar.setRating(Float.parseFloat(ad.getRating()));
+                        }else ratingBar.setVisibility(View.INVISIBLE);
                         tv_Title.setText(ad.getProductName());
-                        tv_Name.setText(ad.getName());
-                        tv_Comment.setText(ad.getComment());
-                        try {
-                            iv_User.setImageBitmap(decodeFromFireBase64(ad.getUserPhoto()));
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        if(!ad.getName().equals("false"))tv_Name.setText(ad.getName());
+                        else{
+                            tv_Name.setText("");
                         }
+                        if(!ad.getComment().equals("false")){
+                            tv_Comment.setText(ad.getComment());
+                        }else{
+                            tv_Comment.setText("");
+                        }
+
+                        if(!ad.getUserPhoto().equals("false")){
+                            try {
+                                iv_User.setImageBitmap(decodeFromFireBase64(ad.getUserPhoto()));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        Picasso.get().load(ad.getProductPhoto()).into(iv_Product);
                         break;
-                    case "female":
+                    case "Female":
                         ad = getFemaleAd(command, dataSnapshot);
-                        ratingBar.setRating(ad.getRating());
+                        if(!ad.getRating().equals("false")){
+                            ratingBar.setRating(Float.parseFloat(ad.getRating()));
+                        }else ratingBar.setVisibility(View.INVISIBLE);
                         tv_Title.setText(ad.getProductName());
-                        tv_Name.setText(ad.getName());
-                        tv_Comment.setText(ad.getComment());
-                        try {
-                            iv_User.setImageBitmap(decodeFromFireBase64(ad.getUserPhoto()));
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        if(!ad.getName().equals("false"))tv_Name.setText(ad.getName());
+                        else{
+                            tv_Name.setText("");
                         }
+                        if(!ad.getComment().equals("false")){
+                            tv_Comment.setText(ad.getComment());
+                        }else{
+                            tv_Comment.setText("");
+                        }
+
+                        if(!ad.getUserPhoto().equals("false")){
+                            try {
+                                iv_User.setImageBitmap(decodeFromFireBase64(ad.getUserPhoto()));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        Picasso.get().load(ad.getProductPhoto()).into(iv_Product);
                         break;
                     default:
                         ad = getOtherAd(command, dataSnapshot);
-                        ratingBar.setRating(ad.getRating());
+                        if(!ad.getRating().equals("false")){
+                            ratingBar.setRating(Float.parseFloat(ad.getRating()));
+                        }else ratingBar.setVisibility(View.INVISIBLE);
                         tv_Title.setText(ad.getProductName());
-                        tv_Name.setText(ad.getName());
-                        tv_Comment.setText(ad.getComment());
-                        try {
-                            iv_User.setImageBitmap(decodeFromFireBase64(ad.getUserPhoto()));
-                        } catch (IOException e) {
-                            e.printStackTrace();
+                        if(!ad.getName().equals("false"))tv_Name.setText(ad.getName());
+                        else{
+                            tv_Name.setText("");
                         }
+                        if(!ad.getComment().equals("false")){
+                            tv_Comment.setText(ad.getComment());
+                        }else{
+                            tv_Comment.setText("");
+                        }
+
+                        if(!ad.getUserPhoto().equals("false")){
+                            try {
+                                iv_User.setImageBitmap(decodeFromFireBase64(ad.getUserPhoto()));
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                        Picasso.get().load(ad.getProductPhoto()).into(iv_Product);
                         break;
                 }
             }
@@ -128,7 +172,7 @@ public class NotifActivity extends AppCompatActivity {
                 iAd.setProductPhoto(dataSnapshot.child("cads").child("other").child("cad1").child("productPhoto").getValue().toString());
                 iAd.setName(dataSnapshot.child("currentUser").child("createAd1").child("uname").getValue().toString());
                 iAd.setComment(dataSnapshot.child("currentUser").child("createAd1").child("ucomment").getValue().toString());
-                iAd.setRating(Float.parseFloat(dataSnapshot.child("currentUser").child("createAd1").child("urating").getValue().toString()));
+                iAd.setRating(dataSnapshot.child("currentUser").child("createAd1").child("urating").getValue().toString());
                 iAd.setUserPhoto(dataSnapshot.child("currentUser").child("createAd1").child("uphoto").getValue().toString());
                 return iAd;
             case "advertised2":
@@ -136,7 +180,7 @@ public class NotifActivity extends AppCompatActivity {
                 iAd.setProductPhoto(dataSnapshot.child("cads").child("other").child("cad2").child("productPhoto").getValue().toString());
                 iAd.setName(dataSnapshot.child("currentUser").child("createAd2").child("uname").getValue().toString());
                 iAd.setComment(dataSnapshot.child("currentUser").child("createAd2").child("ucomment").getValue().toString());
-                iAd.setRating(Float.parseFloat(dataSnapshot.child("currentUser").child("createAd2").child("urating").getValue().toString()));
+                iAd.setRating(dataSnapshot.child("currentUser").child("createAd2").child("urating").getValue().toString());
                 iAd.setUserPhoto(dataSnapshot.child("currentUser").child("createAd2").child("uphoto").getValue().toString());
                 return iAd;
             case "advertised3":
@@ -144,7 +188,7 @@ public class NotifActivity extends AppCompatActivity {
                 iAd.setProductPhoto(dataSnapshot.child("cads").child("other").child("cad3").child("productPhoto").getValue().toString());
                 iAd.setName(dataSnapshot.child("currentUser").child("createAd3").child("uname").getValue().toString());
                 iAd.setComment(dataSnapshot.child("currentUser").child("createAd3").child("ucomment").getValue().toString());
-                iAd.setRating(Float.parseFloat(dataSnapshot.child("currentUser").child("createAd3").child("urating").getValue().toString()));
+                iAd.setRating(dataSnapshot.child("currentUser").child("createAd3").child("urating").getValue().toString());
                 iAd.setUserPhoto(dataSnapshot.child("currentUser").child("createAd3").child("uphoto").getValue().toString());
                 return iAd;
         }
@@ -153,7 +197,7 @@ public class NotifActivity extends AppCompatActivity {
     }
 
     private AdStruct getFemaleAd(String command, DataSnapshot dataSnapshot) {
-        AdStruct iAd = null;
+        AdStruct iAd = new AdStruct();
 
         switch (command){
             case "advertised1":
@@ -161,7 +205,7 @@ public class NotifActivity extends AppCompatActivity {
                 iAd.setProductPhoto(dataSnapshot.child("cads").child("female").child("cad1").child("productPhoto").getValue().toString());
                 iAd.setName(dataSnapshot.child("currentUser").child("createAd1").child("uname").getValue().toString());
                 iAd.setComment(dataSnapshot.child("currentUser").child("createAd1").child("ucomment").getValue().toString());
-                iAd.setRating(Float.parseFloat(dataSnapshot.child("currentUser").child("createAd1").child("urating").getValue().toString()));
+                iAd.setRating(dataSnapshot.child("currentUser").child("createAd1").child("urating").getValue().toString());
                 iAd.setUserPhoto(dataSnapshot.child("currentUser").child("createAd1").child("uphoto").getValue().toString());
                 return iAd;
             case "advertised2":
@@ -169,7 +213,7 @@ public class NotifActivity extends AppCompatActivity {
                 iAd.setProductPhoto(dataSnapshot.child("cads").child("female").child("cad2").child("productPhoto").getValue().toString());
                 iAd.setName(dataSnapshot.child("currentUser").child("createAd2").child("uname").getValue().toString());
                 iAd.setComment(dataSnapshot.child("currentUser").child("createAd2").child("ucomment").getValue().toString());
-                iAd.setRating(Float.parseFloat(dataSnapshot.child("currentUser").child("createAd2").child("urating").getValue().toString()));
+                iAd.setRating(dataSnapshot.child("currentUser").child("createAd2").child("urating").getValue().toString());
                 iAd.setUserPhoto(dataSnapshot.child("currentUser").child("createAd2").child("uphoto").getValue().toString());
                 return iAd;
             case "advertised3":
@@ -177,7 +221,7 @@ public class NotifActivity extends AppCompatActivity {
                 iAd.setProductPhoto(dataSnapshot.child("cads").child("female").child("cad3").child("productPhoto").getValue().toString());
                 iAd.setName(dataSnapshot.child("currentUser").child("createAd3").child("uname").getValue().toString());
                 iAd.setComment(dataSnapshot.child("currentUser").child("createAd3").child("ucomment").getValue().toString());
-                iAd.setRating(Float.parseFloat(dataSnapshot.child("currentUser").child("createAd3").child("urating").getValue().toString()));
+                iAd.setRating(dataSnapshot.child("currentUser").child("createAd3").child("urating").getValue().toString());
                 iAd.setUserPhoto(dataSnapshot.child("currentUser").child("createAd3").child("uphoto").getValue().toString());
                 return iAd;
         }
@@ -194,7 +238,7 @@ public class NotifActivity extends AppCompatActivity {
                 iAd.setProductPhoto(dataSnapshot.child("cads").child("male").child("cad1").child("productPhoto").getValue().toString());
                 iAd.setName(dataSnapshot.child("currentUser").child("createAd1").child("uname").getValue().toString());
                 iAd.setComment(dataSnapshot.child("currentUser").child("createAd1").child("ucomment").getValue().toString());
-                iAd.setRating(Float.parseFloat(dataSnapshot.child("currentUser").child("createAd1").child("urating").getValue().toString()));
+                iAd.setRating(dataSnapshot.child("currentUser").child("createAd1").child("urating").getValue().toString());
                 iAd.setUserPhoto(dataSnapshot.child("currentUser").child("createAd1").child("uphoto").getValue().toString());
                 return iAd;
             case "advertised2":
@@ -202,7 +246,7 @@ public class NotifActivity extends AppCompatActivity {
                 iAd.setProductPhoto(dataSnapshot.child("cads").child("male").child("cad2").child("productPhoto").getValue().toString());
                 iAd.setName(dataSnapshot.child("currentUser").child("createAd2").child("uname").getValue().toString());
                 iAd.setComment(dataSnapshot.child("currentUser").child("createAd2").child("ucomment").getValue().toString());
-                iAd.setRating(Float.parseFloat(dataSnapshot.child("currentUser").child("createAd2").child("urating").getValue().toString()));
+                iAd.setRating(dataSnapshot.child("currentUser").child("createAd2").child("urating").getValue().toString());
                 iAd.setUserPhoto(dataSnapshot.child("currentUser").child("createAd2").child("uphoto").getValue().toString());
                 return iAd;
             case "advertised3":
@@ -210,7 +254,7 @@ public class NotifActivity extends AppCompatActivity {
                 iAd.setProductPhoto(dataSnapshot.child("cads").child("male").child("cad3").child("productPhoto").getValue().toString());
                 iAd.setName(dataSnapshot.child("currentUser").child("createAd3").child("uname").getValue().toString());
                 iAd.setComment(dataSnapshot.child("currentUser").child("createAd3").child("ucomment").getValue().toString());
-                iAd.setRating(Float.parseFloat(dataSnapshot.child("currentUser").child("createAd3").child("urating").getValue().toString()));
+                iAd.setRating(dataSnapshot.child("currentUser").child("createAd3").child("urating").getValue().toString());
                 iAd.setUserPhoto(dataSnapshot.child("currentUser").child("createAd3").child("uphoto").getValue().toString());
                 return iAd;
         }
@@ -256,7 +300,10 @@ public class NotifActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
+        Intent intent = new Intent(this,MainActivity.class);
         finish();
+        startActivity(intent);
+
     }
 }
 

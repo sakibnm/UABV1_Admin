@@ -2,7 +2,7 @@ package com.example.mmiazi.uabv1_admin;
 
 public class AdStruct {
     String name;
-    float rating;
+    String rating;
     String productName;
     String comment;
     String userPhoto;
@@ -32,11 +32,11 @@ public class AdStruct {
         this.name = name;
     }
 
-    public float getRating() {
+    public String getRating() {
         return rating;
     }
 
-    public void setRating(float rating) {
+    public void setRating(String rating) {
         this.rating = rating;
     }
 
@@ -72,7 +72,7 @@ public class AdStruct {
         this.productPhoto = productPhoto;
     }
 
-    AdStruct(String name, int rating, String productName, String comment, String userPhoto, String productPhoto) {
+    AdStruct(String name, String rating, String productName, String comment, String userPhoto, String productPhoto) {
         this.name = name;
         this.rating = rating;
         this.productName = productName;

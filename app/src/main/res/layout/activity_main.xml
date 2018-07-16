@@ -26,6 +26,25 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
+        android:id="@+id/buttonClearUser"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@android:color/holo_red_dark"
+        android:elevation="22dp"
+        android:padding="4sp"
+        android:text="Clear User"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_orange_light"
+        android:textStyle="bold|italic"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/buttonClear" />
+
+    <Button
         android:id="@+id/buttonAd1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

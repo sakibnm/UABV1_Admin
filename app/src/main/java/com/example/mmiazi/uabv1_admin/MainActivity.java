@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
     private Button adButton2;
     private Button adButton3;
     private Button clearButton;
+    private Button clearUserButton;
 
     private Bitmap userPhoto;
     private Uri uriUserPhoto;
@@ -55,6 +56,7 @@ public class MainActivity extends AppCompatActivity {
         adButton2 = findViewById(R.id.buttonAd2);
         adButton3 = findViewById(R.id.buttonAd3);
         clearButton = findViewById(R.id.buttonClear);
+        clearUserButton = findViewById(R.id.buttonClearUser);
 
         adButton1.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -80,15 +82,24 @@ public class MainActivity extends AppCompatActivity {
         clearButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FirebaseCreateAd createAd1 = new FirebaseCreateAd("false", "false","false","false");
-                FirebaseCreateAd createAd2 = new FirebaseCreateAd("false", "false","false","false");
-                FirebaseCreateAd createAd3 = new FirebaseCreateAd("false", "false","false","false");
 
-                CurrentUser user = new CurrentUser(createAd1, createAd2, createAd3, "empty", "empty", "empty", "empty", "empty");
-                databaseReference.child("currentUser").setValue(user);
+
+//                CurrentUser user = new CurrentUser(createAd1, createAd2, createAd3, "empty", "empty", "empty", "empty", "empty");
+//                databaseReference.child("currentUser").setValue(user);
                 databaseReference.child("signalFromAdmin").child("command").setValue("empty");
                 firebaseDatabase.getReference().child("signalToAdmin").child("command").setValue("empty");
 
+            }
+        });
+
+        clearUserButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseCreateAd createAd1 = new FirebaseCreateAd("false", "false","false","false");
+                FirebaseCreateAd createAd2 = new FirebaseCreateAd("false", "false","false","false");
+                FirebaseCreateAd createAd3 = new FirebaseCreateAd("false", "false","false","false");
+                CurrentUser user = new CurrentUser(createAd1, createAd2, createAd3, "empty", "empty", "empty", "empty", "empty");
+                databaseReference.child("currentUser").setValue(user);
             }
         });
 
